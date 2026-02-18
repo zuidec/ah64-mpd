@@ -1,0 +1,15 @@
+.cache
+.settings
+.cproject
+.project
+.mxproject
+*.launch
+compile_commands.json
+*.so
+*.d
+*.bin
+*.elf
+*.hex
+build/*
+*.bak
+

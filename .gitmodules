@@ -1,0 +1,3 @@
+[submodule "discostick_common"]
+	path = Drivers/discostick_common
+	url = git@github.com:zuidec/discostick_common.git
