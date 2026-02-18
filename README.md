@@ -113,7 +113,7 @@ This project enumerates as a **Joystick** HID device.
 2. Optionally modify the `.ioc` in CubeMX and regenerate (or use the committed 
    generated project).
 
-> [!IMPORANT]
+> [!IMPORTANT]
 > If you regenerate the code in CubeMX, look for a rogue '}' near the bottom of 
 > the main.c file. The ErrorHandler is mostly #ifdef'd out but that one bracket
 > will come back each time you regenerate the code (Thanks ST -_-).
