@@ -1,11 +1,13 @@
 # AH-64D MPD (DCS) — STM32F407 USB HID Controller
 
-This project is an AH-64D Apache **MPD (Multi-Purpose Display) button panel** for **DCS**, implemented as a **driverless USB HID joystick** using an **STM32F407VGT6** board (instead of Arduino/Leo Bodnar).
+This is an AH-64D Apache **MPD (Multi-Purpose Display) button panel** for 
+**DCS**, implemented as a **driverless USB HID joystick** using an 
+**STM32F407VGT6** board (instead of Arduino/Leo Bodnar).
 
-- **Target sim:** DCS World (AH-64D)
-- **USB class:** Custom HID (Joystick)
-- **Inputs:** MPD buttons + rotary encoders (exposed as axes for game compatibility)
-- **MCU board used:** STM32F407VGT6 / STM32F4XX-M “DevEBox STM32F4xx” style 
+- **Use**Intended for use in DCS World, but should work in any modern game
+- **Inputs:** MPD buttons + Mode selector (exposed as 3 buttons) + rotary 
+encoders (exposed as axes for game compatibility)
+- **MCU board used:** STM32F407VGT6 / STM32F4xx-M “DevEBox STM32F4xx” style 
 commonly found on AliExpress
   - Similar board with an STM32F407V**E**T instead of STM32F407V**G**T: 
   https://stm32-base.org/boards/STM32F407VET6-STM32F4XX-M
@@ -52,7 +54,7 @@ buttons in for 5 seconds.
 - Both are configured in CubeMX as: `TIM_ENCODERMODE_TI12` with input filters
 
 ### Other Peripherals
-- SPI3 for external flash (optional/if populated):
+- SPI3 for external flash (optional):
   - SCK **PB3**, MISO **PB4**, MOSI **PB5**
   - CS **PA15** (`FLASH_CS`)
 - USART3 (optional debug/telemetry):
@@ -62,12 +64,12 @@ buttons in for 5 seconds.
 
 ---
 
-## Wiring / Pinout (from `ah64.ioc`)
+## Wiring / Pinout (from `ah64-mpd.ioc`)
 
 All button inputs below are configured as **GPIO input + pull-up** (active-low), 
 with the exception of the onboard K0 connected to PA0 which is an active-high 
 button.
-```c                                                                           
+```                                                                           
 .               PC5   PE2 PE3 PE4 PE5 PE6 PC13   PD11
            PB0   |    |   |   |   |   |   |      /
             \   VID   T1  T2  T3  T4  T5  T6   DAY
@@ -105,13 +107,16 @@ This project enumerates as a **Joystick** HID device.
 - Optional DFU workflow 
 
 ### Typical steps
-1. Clone down repo 
-`git clone --recurse-submodules git@github.com:zuidec/ah64-mpd.git`
-2. Optionally modify the `.ioc` in CubeMX (or use the committed generated 
-   project).
+1. Clone down repo `git clone --recurse-submodules https://github.com/zuidec/ah64-mpd.git`
+2. Optionally modify the `.ioc` in CubeMX and regenerate (or use the committed 
+   generated project).
+>[!IMPORANT]
+> If you regenerate the code in CubeMX, look for a rogue '}' near the bottom of 
+> the main.c file. The ErrorHandler is mostly #ifdef'd out but that one bracket
+> will come back each time you regenerate the code (Thanks ST -_-).
 3. Building:
-    a. Build the firmware with arm-none-eabi toolchain from either STM's 
-    programs or  your distribution's package manager.
+    a. Build the firmware with cross-arm-none toolchain from either STM's 
+    programs or your distribution's package manager.
     b. Import the project as a STM32 Makefile project and build it inside 
     CubeIDE
 4. Flash using ST-LINK or DFU bootloader.
