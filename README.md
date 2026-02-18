@@ -107,13 +107,17 @@ This project enumerates as a **Joystick** HID device.
 - Optional DFU workflow 
 
 ### Typical steps
-1. Clone down repo `git clone --recurse-submodules https://github.com/zuidec/ah64-mpd.git`
+
+1. Clone down repo `git clone --recurse-submodules 
+   https://github.com/zuidec/ah64-mpd.git`
 2. Optionally modify the `.ioc` in CubeMX and regenerate (or use the committed 
    generated project).
+
 > [!IMPORANT]
 > If you regenerate the code in CubeMX, look for a rogue '}' near the bottom of 
 > the main.c file. The ErrorHandler is mostly #ifdef'd out but that one bracket
 > will come back each time you regenerate the code (Thanks ST -_-).
+
 3. Building:
     - a. Build the firmware with cross-arm-none toolchain from either STM's 
     programs or your distribution's package manager.
